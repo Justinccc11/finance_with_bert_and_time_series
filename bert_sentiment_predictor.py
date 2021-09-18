@@ -22,7 +22,7 @@ else:
   print("\nUsing: CPU")
   device = torch.device('cpu')
 
-labeled_dataset = "news_headlines_sentiment.csv"
+labeled_dataset = "data/news_headlines_sentiment.csv"
 labeled_dataset_file = Path(labeled_dataset)
 file_loaded = False
 while not file_loaded:
@@ -34,7 +34,7 @@ while not file_loaded:
     print("File not Found")
 print(labeled_dataset)
 
-additional_dataset = "more_news_data.csv"
+additional_dataset = "data/more_news_data.csv"
 phrase_bank_dataset_file = Path(additional_dataset)
 file_loaded = False
 while not file_loaded:
@@ -214,7 +214,6 @@ def generate_test_data_for_bitcoin(fname):
     df = pd.read_excel(fname)
     df = df.dropna()
     df["Title+Summary"] = df["Title"].copy() + " " + df["Summary"].copy()
-    df_test = df["Title+Summary"].copy()
 
     test_dataset = tokenize_headlines_test(df, tokenizer)
     test_data_loader = DataLoader(test_dataset, batch_size=8)
@@ -238,11 +237,11 @@ def bert_inference(test_dataloader):
 
 
 if __name__ == "__main__":
-    fname = "articles.xlsx"
+    fname = "data/articles.xlsx"
     test_df, test_dataloader = generate_test_data_for_bitcoin(fname)
     test_data_pred_sentiments = bert_inference(test_dataloader)
     test_df["sentiments"] = test_data_pred_sentiments
-    test_df.to_csv("bitcoin_articles_with_sentiments.csv")
+    test_df.to_csv("data/bitcoin_articles_with_sentiments.csv")
 
 
 
